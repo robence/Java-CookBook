@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -37,8 +38,8 @@ public class Recipe {
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
-//    @OneToMany(mappedBy = "issue")
-//    private List<Ingredient> ingredients;
+    @OneToMany(mappedBy = "issue")
+    private List<Ingredients> ingredients;
 
     @ManyToOne
     @JoinColumn
