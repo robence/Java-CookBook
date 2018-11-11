@@ -44,4 +44,20 @@ public class UserController {
     public ResponseEntity login(@RequestBody User user) {
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<User> update(@RequestBody User user) {
+        return ResponseEntity.ok(userRepository.save(user));
+    }
+
+    @PostMapping("/delete/{id}")
+    public boolean delete(@PathVariable Integer id) {
+        Optional<User> oUser = userRepository.findById(id);
+        if (!oUser.isPresent()) {
+            return false;
+        }
+
+        userRepository.delete(oUser.get());
+        return true;
+    }
 }
