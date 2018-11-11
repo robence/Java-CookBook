@@ -44,4 +44,25 @@ public class RecipeController {
         return ResponseEntity.ok(recipeRepository.findAllByUser(oUser.get()));
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<Recipe> save(@RequestBody Recipe recipe) {
+        return ResponseEntity.ok(recipeRepository.save(recipe));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Recipe> update(@RequestBody Recipe recipe) {
+        return ResponseEntity.ok(recipeRepository.save(recipe));
+    }
+
+    @PostMapping("/delete/{id}")
+    public boolean delete(@PathVariable  Integer id) {
+        Optional<Recipe> oRecipe = recipeRepository.findById(id);
+        if (!oRecipe.isPresent()) {
+            return false;
+        }
+
+        recipeRepository.delete(oRecipe.get());
+        return true;
+    }
+
 }
