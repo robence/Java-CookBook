@@ -1,7 +1,7 @@
 package com.elte.alkfejl.recept.controller;
 
-import com.elte.alkfejl.recept.model.Ingredients;
-import com.elte.alkfejl.recept.repository.IngredientsRepository;
+import com.elte.alkfejl.recept.model.Ingredient;
+import com.elte.alkfejl.recept.repository.IngredientRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class IngredientsController {
 
     @Autowired
-    private IngredientsRepository ingredientsRepository;
+    private IngredientRepository ingredientRepository;
 
     @GetMapping("/")
-    ResponseEntity<Iterable<Ingredients>> getAllIngredients() {
-        return ResponseEntity.ok(ingredientsRepository.findAll());
+    ResponseEntity<Iterable<Ingredient>> getAllIngredients() {
+        return ResponseEntity.ok(ingredientRepository.findAll());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Ingredients> get(@PathVariable Integer id) {
-        Optional<Ingredients> ingredient = ingredientsRepository.findById(id);
+    ResponseEntity<Ingredient> get(@PathVariable Integer id) {
+        Optional<Ingredient> ingredient = ingredientRepository.findById(id);
         if (ingredient.isPresent()) {
             return ResponseEntity.ok(ingredient.get());
         } else {

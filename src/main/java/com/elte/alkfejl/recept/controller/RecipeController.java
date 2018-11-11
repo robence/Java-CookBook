@@ -1,24 +1,24 @@
 package com.elte.alkfejl.recept.controller;
 
 import com.elte.alkfejl.recept.model.Recipe;
+import com.elte.alkfejl.recept.model.User;
 import com.elte.alkfejl.recept.repository.RecipeRepository;
-import lombok.extern.slf4j.Slf4j;
+import com.elte.alkfejl.recept.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/recipe")
-@Slf4j
 public class RecipeController {
 
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/")
     ResponseEntity<Iterable<Recipe>> getAllRecipes() {
@@ -28,10 +28,20 @@ public class RecipeController {
     @GetMapping("/{id}")
     ResponseEntity<Recipe> get(@PathVariable Integer id) {
         Optional<Recipe> recipe = recipeRepository.findById(id);
-        if (recipe.isPresent()) {
-            return ResponseEntity.ok(recipe.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return recipe.isPresent()
+            ? ResponseEntity.ok(recipe.get())
+            : ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<Iterable<Recipe>> getRecipesByUser(@RequestParam String username) {
+        Optional<User> oUser = userRepository.findByUsername(username);
+
+        if (!oUser.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(recipeRepository.findAllByUser(oUser.get()));
+    }
+
 }

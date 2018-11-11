@@ -38,8 +38,8 @@ public class Recipe {
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
-    @OneToMany(mappedBy = "issue")
-    private List<Ingredients> ingredients;
+    @OneToMany(mappedBy = "recipe")
+    private List<Ingredient> ingredients;
 
     @ManyToOne
     @JoinColumn
