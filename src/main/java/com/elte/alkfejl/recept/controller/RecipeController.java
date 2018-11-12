@@ -1,9 +1,7 @@
 package com.elte.alkfejl.recept.controller;
 
 import com.elte.alkfejl.recept.model.Recipe;
-import com.elte.alkfejl.recept.model.User;
 import com.elte.alkfejl.recept.repository.RecipeRepository;
-import com.elte.alkfejl.recept.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

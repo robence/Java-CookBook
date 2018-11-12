@@ -40,7 +40,7 @@ public class User {
         ROLE_GUEST, ROLE_USER, ROLE_ADMIN
     }
 
-    @OneToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "users")
     @JsonIgnore
     private List<Recipe> recipes;
 

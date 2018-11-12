@@ -41,10 +41,10 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe")
     private List<Ingredient> ingredients;
 
-    @ManyToOne
+    @ManyToMany
     @JoinColumn
     @JsonIgnore
-    private User user;
+    private List<User> users;
 }
 
 
