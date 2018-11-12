@@ -14,11 +14,12 @@ import java.util.Optional;
 @RequestMapping("/recipe")
 public class RecipeController {
 
-    @Autowired
-    private RecipeRepository recipeRepository;
+    private final RecipeRepository recipeRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public RecipeController(RecipeRepository recipeRepository) {
+        this.recipeRepository = recipeRepository;
+    }
 
     @GetMapping("/")
     ResponseEntity<Iterable<Recipe>> getAllRecipes() {
@@ -31,17 +32,6 @@ public class RecipeController {
         return recipe.isPresent()
             ? ResponseEntity.ok(recipe.get())
             : ResponseEntity.notFound().build();
-    }
-
-    @GetMapping("/user")
-    public ResponseEntity<Iterable<Recipe>> getRecipesByUser(@RequestParam String username) {
-        Optional<User> oUser = userRepository.findByUsername(username);
-
-        if (!oUser.isPresent()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(recipeRepository.findAllByUser(oUser.get()));
     }
 
     @PostMapping("/create")

@@ -12,8 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/")
     public ResponseEntity<Iterable<User>> getAllUsers() {
@@ -51,8 +55,8 @@ public class UserController {
     }
 
     @PostMapping("/delete/{id}")
-    public boolean delete(@PathVariable Integer id) {
-        Optional<User> oUser = userRepository.findById(id);
+    public boolean delete(@PathVariable String username) {
+        Optional<User> oUser = userRepository.findByUsername(username);
         if (!oUser.isPresent()) {
             return false;
         }

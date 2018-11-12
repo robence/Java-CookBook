@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/ingredients")
 public class IngredientsController {
 
+    private final IngredientRepository ingredientRepository;
+
     @Autowired
-    private IngredientRepository ingredientRepository;
+    public IngredientsController(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @GetMapping("/")
     ResponseEntity<Iterable<Ingredient>> getAllIngredients() {
