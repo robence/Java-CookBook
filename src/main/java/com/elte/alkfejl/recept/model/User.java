@@ -44,4 +44,8 @@ public class User {
     @JsonIgnore
     private List<Recipe> recipes;
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Review> reviews;
+
 }

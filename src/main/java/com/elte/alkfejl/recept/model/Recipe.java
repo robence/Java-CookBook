@@ -45,6 +45,10 @@ public class Recipe {
     @JoinColumn
     @JsonIgnore
     private List<User> users;
+
+    @OneToMany(mappedBy = "recipe")
+    @JsonIgnore
+    private List<Review> reviews;
 }
 
 
