@@ -5,9 +5,11 @@ import com.elte.alkfejl.recept.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
@@ -28,8 +30,8 @@ public class RecipeController {
     ResponseEntity<Recipe> get(@PathVariable Integer id) {
         Optional<Recipe> recipe = recipeRepository.findById(id);
         return recipe.isPresent()
-            ? ResponseEntity.ok(recipe.get())
-            : ResponseEntity.notFound().build();
+                ? ResponseEntity.ok(recipe.get())
+                : ResponseEntity.notFound().build();
     }
 
     @PostMapping("/create")
@@ -43,7 +45,7 @@ public class RecipeController {
     }
 
     @PostMapping("/delete/{id}")
-    public boolean delete(@PathVariable  Integer id) {
+    public boolean delete(@PathVariable Integer id) {
         Optional<Recipe> oRecipe = recipeRepository.findById(id);
         if (!oRecipe.isPresent()) {
             return false;

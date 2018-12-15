@@ -6,9 +6,11 @@ import com.elte.alkfejl.recept.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/reviews")
 public class ReviewController {
@@ -19,7 +21,6 @@ public class ReviewController {
     public ReviewController(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
     }
-
 
     @GetMapping("/")
     ResponseEntity<Iterable<Review>> getAllReviews() {
@@ -45,7 +46,7 @@ public class ReviewController {
     }
 
     @PostMapping("/delete/{id}")
-    public boolean delete(@PathVariable  Integer id) {
+    public boolean delete(@PathVariable Integer id) {
         Optional<Review> oReview = reviewRepository.findById(id);
         if (!oReview.isPresent()) {
             return false;

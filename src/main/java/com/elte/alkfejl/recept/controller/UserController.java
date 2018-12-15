@@ -1,13 +1,16 @@
 package com.elte.alkfejl.recept.controller;
 
 import java.util.Optional;
-
 import com.elte.alkfejl.recept.model.User;
 import com.elte.alkfejl.recept.repository.UserRepository;
+import com.elte.alkfejl.recept.security.AuthenticatedUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -15,9 +18,15 @@ public class UserController {
     private final UserRepository userRepository;
 
     @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    @Autowired
+    private AuthenticatedUser authenticatedUser;
 
     @GetMapping("/")
     public ResponseEntity<Iterable<User>> getAllUsers() {
@@ -39,14 +48,27 @@ public class UserController {
         if (oUser.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
+
+        /*
         user.setPassword(user.getPassword());
+        user.setRole(User.Role.ROLE_USER);
+        return ResponseEntity.ok(userRepository.save(user));
+         */
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
         user.setRole(User.Role.ROLE_USER);
         return ResponseEntity.ok(userRepository.save(user));
     }
 
+    /*
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User user) {
         return ResponseEntity.ok().build();
+    }
+     */
+    @PostMapping("/login")
+    public ResponseEntity<User> login() {
+        return ResponseEntity.ok(authenticatedUser.getUser());
     }
 
     @PutMapping("/update")
